@@ -1,7 +1,15 @@
-# Projeto: ambiente completo para data science a analytics
+# Projeto: ambiente docker completo para data science e analytics
+Instalação em um clique e sem problemas de compatibilidade!<br>
+
+✅ spyder;<br>
+✅ jupyter notebook;<br>
+✅ mysql;<br>
+✅ postgres;<br>
+✅ mongodb;<br>
+✅ mongodb express (interface gráfica para visualização de dados);<br>
+✅ flask e fastapi (disponibilizar gráficos por api);<br>
 
 ![Spyder IDE](docs/spyder.gif)
-
 
 **⚠️ ATENÇÃO!**<br/>
 Antes de continuar para os próximos passos, verifique se o `docker` e o `docker-compose` estão instaldos na sua máquina, utilizando os comandos abaixo:
@@ -73,6 +81,12 @@ Basta executar o comando abaixo no terminal:
 Ou entrar dentro do terminal do container e executar:
 ```
 spyder
+```
+**⚠️ OBSERVAÇÃO:**<br/>
+Na primeira vez que montar o container, você terá que executar o comando abaixo para que o container possa abrir uma janela na máquina host, isso só será necessário uma única vez.
+
+```
+xhost +local:docker
 ```
 
 **⚠️ OBSERVAÇÃO:**<br/>
