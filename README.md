@@ -27,11 +27,10 @@ Caso os comandos acima não retorne resposta, será necessário instalar o `dock
 ```
 
 # 2. Linux
+![INSTALL](docs/install.gif)
 
 ### Montar o container da aplicação:
 #### 2.1. Montar o projeto através do script automatizado `start.sh`:<br>
-
-![INSTALL](docs/install.gif)
 
 **⚠️ ATENÇÃO!**<br/>
 O script automatizado funciona apenas em ambiente `linux`. <br>
