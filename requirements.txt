@@ -1,0 +1,50 @@
+# CARREGAR VARIÁVEIS DE AMBIENTE
+python-dotenv==0.21.0       # Para o python acessar as variáveis de ambiente
+
+# COMUNICAÇÃO COM BANCO DE DADOS
+pymongo==4.8.0              # Comunicação entre python e mongo
+psycopg2==2.9.9             # Comunicação entre python e postgres
+pymysql==1.1.1              # Comunicação entre python e mysql
+
+# ANÁLISE ESTATÍSTICA E MACHINE LEARNING
+pingouin==0.5.5             # Útil de funções para análise estatística
+prince==0.13.1              # Útil para análises de PCA, CA, MCA, MFA e outras
+emojis==0.7.0               # Útil para gerar emojis em linguagem natural
+statstests==1.0.7           # Útil para dependência herdada de outros pacotes
+xgboost==2.1.4              # Algoritmo de gradient boosting eficienteL
+lightgbm==4.6.0             # Variante do gradient boosting focada em velocidade e performance
+shap==0.46.0                # Explicabilidade de modelos (interpretação de modelos via SHAP values)
+
+# GERAR DADOS DE EXEMPLO
+Faker==37.1.0               # Útil para gerar de exemplo como nomes e outras strings
+
+# GERAR GRÁFICOS
+mpld3==0.5.10               # Converte gráficos matplotlib para HTML interativo usando D3.js
+dash==2.18.2                # Útil para dashboards interativos com Python
+mplcursors==0.6             # Útil para ter interação de cursor no matplotlib
+
+# BASE DA APLICAÇÃO
+fastapi== 0.115.11          # APIs RESTful
+flask==3.0.3                # APIs RESTful flask (mais simples que fastapi mas com menos recursos)
+uvicorn==0.34.0             # Servidor ASGI para o FastAPI
+pydantic==2.8.2             # Validação de tipos
+
+# RENDERIZAÇÃO, RELATÓRIOS EM PDF E FRONT
+jinja2==3.1.4               # Gerar HTML dinâmico, útil para gerar pdfs e páginas
+
+# # INTERAÇÃO COM BANCO DE DADOS
+SQLAlchemy==2.0.34          # ORM para trabalhar com bancos de dados relacionais em Python (como PostgreSQL, MySQL, SQLite)
+anyio==4.2.0                # Biblioteca assíncrona para interagir com bancos de dados
+alembic==1.15.1             # Ferramenta de migração de banco de dados para o SQLAlchemy
+
+# SEGURANÇA
+itsdangerous==2.2.0         # Segurança para assinatura e criptografia de dados
+bcrypt==3.2.0               # Útil para gerar tokens JWE em autenticaçãp
+python-jose==3.4.0          # Útil para gerar tokens JWT em autenticaçãp
+
+# DEBUG
+pympler==1.1                # Útil para analisar o comportamento do uso de memória
+flake8==7.1.1               # Útil para verificar padrão e qualidade de código
+
+# TESTES
+pytest==7.4.4               # Útil para criar testes automatixados

@@ -1,0 +1,26 @@
+token.txt
+/jupyter
+
+.Trash-0/
+
+/notebooks/.ipynb_checkpoints
+.env
+
+# Arquivos de ambiente Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Volumes dos bancos de dados
+/data/mongodb
+/data/postgres
+/data/mysql
+/data/redis
+!/data/.gitkeep
+
+# Pasta dos arquivos de dados
+/data_files/**
+
+!/data_files/.gitkeep

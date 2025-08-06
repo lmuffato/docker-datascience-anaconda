@@ -1,0 +1,135 @@
+version: '3.9'
+services:
+  anaconda:
+    container_name: '${APP_NAME}'
+    image: 'anaconda'
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        APP_PORT: ${APP_PORT}
+        APP_ENV: ${APP_ENV}
+        DOCKER_USER_NAME: ${DOCKER_USER_NAME}
+        UID: ${DOCKER_USER_ID}
+        GID: ${DOCKER_GROUP_ID}
+    user: "${DOCKER_USER_ID}:${DOCKER_GROUP_ID}"
+    environment:
+      APP_PORT: '${APP_PORT}'
+      DISPLAY: '${DISPLAY}'
+      QT_X11_NO_MITSHM: 1
+      LIBGL_ALWAYS_SOFTWARE: 1
+      LIBGL_DRIVERS_PATH: '/usr/lib/x86_64-linux-gnu/dri'
+    devices:
+      - /dev/dri:/dev/dri 
+    ports:
+      - '${APP_PORT}:8000'
+      - '${JUPYTER_PORT}:8889'
+      - '${SPYDER_PORT}:8070'
+      - '${FLASK_PORT}:5000'
+      - '${DASH}:8501'
+
+    volumes:
+      - ./:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /usr/share/icons:/usr/share/icons:ro
+      - /usr/share/themes:/usr/share/themes:ro
+    stdin_open: true
+    tty: true
+    networks:
+      - nw_network
+
+
+  mongo:
+    image: mongo:latest
+    container_name: '${APP_NAME}-mongo'
+    volumes:
+      - ./data/mongodb:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: '${MONGO_USERNAME}'
+      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_PASSWORD}'
+    ports:
+      - '${MONGO_PORT}:27017'
+    networks:
+      - nw_network
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: ["CMD","mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  postgres:
+    image: 'postgres:latest'
+    container_name: '${APP_NAME}-postgres'
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - "./devops/postgres/create_development_database.sql:/docker-entrypoint-initdb.d/create_development_database.sql"
+    environment:
+      POSTGRES_USER: '${POSTGRES_USER}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+      POSTGRES_DB: '${POSTGRES_DB}'
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    networks:
+      - nw_network
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  mysql:
+    image: 'mysql:latest'
+    container_name: '${APP_NAME}-mysql'
+    environment:
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
+    ports:
+      - '${MYSQL_PORT}:3306'
+    networks:
+      - nw_network
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./devops/mysql/mysql_testing.sql:/docker-entrypoint-initdb.d/mysql_testing.sql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: '${APP_NAME}-mongo-express'
+    depends_on:
+      mongo:
+        condition: service_started
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      - nw_network
+    ports:
+      - "${MONGO_EXPRESS_PORT}:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: '${MONGO_USERNAME}'
+      ME_CONFIG_MONGODB_ADMINPASSWORD: '${MONGO_PASSWORD}'
+      ME_CONFIG_MONGODB_PORT: '${MONGO_PORT}'
+      ME_CONFIG_MONGODB_SERVER: '${MONGO_HOST}'
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_BASICAUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: '${MONGO_EXPRESS_BASICAUTH_PASSWORD}'
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: '${MONGO_EXPRESS_ENABLE_ADMIN}'
+      ME_CONFIG_OPTIONS_EDITORTHEME: '${MONGO_EXPRESS_EDITORTHEME}'
+
+networks:
+  nw_network:
+    name: '${NET_WORK_NAME}_nw'
+    driver: "bridge"
