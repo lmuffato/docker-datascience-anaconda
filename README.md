@@ -1,4 +1,4 @@
-# Projeto: ambiente docker completo para data science e analytics
+# Aambiente docker completo para data science e analytics 🐳
 Instalação em um clique e sem problemas de compatibilidade!<br>
 
 ✅ spyder;<br>
